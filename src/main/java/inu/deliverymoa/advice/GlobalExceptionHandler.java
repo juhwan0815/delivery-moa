@@ -1,6 +1,7 @@
 package inu.deliverymoa.advice;
 
 import inu.deliverymoa.common.exception.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -35,17 +37,20 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ExceptionResponse> handleAccessDeniedExceptions(AccessDeniedException e) {
+        log.error("error", e);
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ExceptionResponse.from("권한이 없습니다."));
     }
 
     @ExceptionHandler({NotMatchException.class, NotFoundException.class, DuplicateException.class, ExistException.class})
     public ResponseEntity<ExceptionResponse> handleBadRequestExceptions(Exception e) {
+        log.error("error", e);
         return ResponseEntity.badRequest().body(ExceptionResponse.from(e.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionResponse handleException(Exception e) {
+        log.error("error", e);
         return ExceptionResponse.from(e.getMessage());
     }
 }
