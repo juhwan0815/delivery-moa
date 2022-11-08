@@ -1,1 +1,21 @@
+spring:
+#  datasource:
+#    url:
+#    username:
+#    password:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#
+#  jpa:
+#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+#    hibernate:
+#      ddl-auto: create
+#    properties:
+#      hibernate:
+#        default_batch_fetch_size: 500
+#        #        show_sql: false
+#        format_sql: true
+#    open-in-view: false
 
+logging:
+  level:
+    org.hibernate.SQL: debug
