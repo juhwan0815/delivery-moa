@@ -36,17 +36,20 @@ public class UserService {
 
         // 이미 가입되어있는지 확인
         Optional<User> findUser = userRepository.findByKakaoId(kakaoProfile.getId());
+        String accessToken = null;
         // 가입 안되어있으면
-        if (findUser == null) {
+        if (!findUser.isPresent()) {
             // 회원가입
             User user = User.createUser(kakaoProfile.getProperties().getNickname(), kakaoProfile.getId(), kakaoProfile.getProperties().getProfile_image(), UserRole.USER);
-            userRepository.save(user);
+            User resultUser = userRepository.save(user);
 
-            findUser = userRepository.findByKakaoId(kakaoProfile.getId());
+            //토큰 생성
+            accessToken = jwtUtil.createToken(resultUser.getId(), String.valueOf(resultUser.getRole()), accessTokenExpirationTime);
         }
-
-        // 토큰 생성
-        String accessToken = jwtUtil.createToken(findUser.get().getId(), String.valueOf(findUser.get().getRole()), accessTokenExpirationTime);
+        else{
+            //토큰 생성
+            accessToken = jwtUtil.createToken(findUser.get().getId(), String.valueOf(findUser.get().getRole()), accessTokenExpirationTime);
+        }
         return new TokenResponse(accessToken);
     }
 
