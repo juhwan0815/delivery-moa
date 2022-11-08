@@ -1,5 +1,6 @@
 package inu.deliverymoa.config;
 
+import inu.deliverymoa.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.Authentication;

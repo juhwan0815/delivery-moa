@@ -1,6 +1,8 @@
 package inu.deliverymoa.security.service;
 
 import inu.deliverymoa.common.exception.NotFoundException;
+import inu.deliverymoa.user.domain.User;
+import inu.deliverymoa.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,6 +29,6 @@ public class UserDetailService implements UserDetailsService {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(String.valueOf(findUser.getRole())));
 
-        return new org.springframework.security.core.userdetails.User(String.valueOf(findUser.getUserId()), "", authorities);
+        return new org.springframework.security.core.userdetails.User(String.valueOf(findUser.getId()), "", authorities);
     }
 }
