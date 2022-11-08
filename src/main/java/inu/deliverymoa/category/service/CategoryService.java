@@ -5,6 +5,7 @@ import inu.deliverymoa.category.domain.CategoryRepository;
 import inu.deliverymoa.category.dto.CategoryCreateRequest;
 import inu.deliverymoa.category.dto.CategoryResponse;
 import inu.deliverymoa.category.dto.CategoryUpdateRequest;
+import inu.deliverymoa.common.domain.YN;
 import inu.deliverymoa.common.exception.DuplicateException;
 import inu.deliverymoa.common.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class CategoryService {
     @Transactional
     public void createCategory(CategoryCreateRequest request) {
 
-        if(categoryRepository.findByName(request.getName()).isPresent()) {
+        if (categoryRepository.findByNameAndDelYn(request.getName(), YN.N).isPresent()) {
             throw new DuplicateException("이미 존재하는 카테고리입니다.");
         }
 
@@ -35,7 +36,7 @@ public class CategoryService {
     @Transactional
     public void updateCategory(Long categoryId, CategoryUpdateRequest request) {
 
-        if(categoryRepository.findByName(request.getName()).isPresent()) {
+        if (categoryRepository.findByNameAndDelYn(request.getName(), YN.N).isPresent()) {
             throw new DuplicateException("이미 존재하는 카테고리입니다.");
         }
 
@@ -47,7 +48,7 @@ public class CategoryService {
     }
 
     public List<CategoryResponse> findCategories() {
-        List<Category> findCategories = categoryRepository.findAll();
+        List<Category> findCategories = categoryRepository.findByDelYn(YN.N);
         return findCategories.stream()
                 .map(CategoryResponse::from)
                 .collect(Collectors.toList());
@@ -58,8 +59,6 @@ public class CategoryService {
         Category findCategory = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 카테고리입니다."));
 
-        // 채팅방 존재 여부 추가하기
-
-        categoryRepository.delete(findCategory);
+        findCategory.delete();
     }
 }
