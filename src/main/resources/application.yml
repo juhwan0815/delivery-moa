@@ -21,6 +21,8 @@ spring:
     open-in-view: false
 
 token:
+  access_token:
+    expiration_time: 604800000 #30일
   secret: secret
 
 social:
