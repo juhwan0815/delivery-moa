@@ -34,6 +34,6 @@ public class Category {
     }
 
     public void delete() {
-        this.delYn = YN.N;
+        this.delYn = YN.Y;
     }
 }
