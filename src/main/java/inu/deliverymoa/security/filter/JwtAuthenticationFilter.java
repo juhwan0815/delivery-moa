@@ -1,5 +1,6 @@
 package inu.deliverymoa.security.filter;
 
+import inu.deliverymoa.security.service.CustomUserDetail;
 import inu.deliverymoa.security.service.UserDetailService;
 import inu.deliverymoa.security.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +33,10 @@ public class JwtAuthenticationFilter extends GenericFilter {
         if (StringUtils.hasText(jwtToken) && jwtUtil.isValidToken(jwtToken)) {
             UserDetails userDetails = userDetailService.loadUserByUsername(jwtUtil.getSubject(jwtToken));
 
+            CustomUserDetail customUserDetail = (CustomUserDetail) userDetails;
+
             Authentication authentication =
-                    new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
+                    new UsernamePasswordAuthenticationToken(customUserDetail.getUser(), null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         chain.doFilter(request, response);

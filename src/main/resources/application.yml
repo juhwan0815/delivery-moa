@@ -25,18 +25,6 @@ token:
     expiration_time: 604800000 #30일
   secret: secret
 
-social:
-  kakao:
-    client_id: aa3e67e0a4cea5c0b46bd6e5c733e256
-    redirect: /social/login/kakao
-    url:
-      login: https://kauth.kakao.com/oauth/authorize
-      token: https://kauth.kakao.com/oauth/token
-#        profile: https://kauth.kakao.com/v2/user/me
-      profile: https://kapi.kakao.com/v2/user/me
-url:
-  base: http://localhost:8080
-
 logging:
   level:
     org.hibernate.SQL: debug

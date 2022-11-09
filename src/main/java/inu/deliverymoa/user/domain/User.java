@@ -16,40 +16,25 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
-
-    private String email;
-
-    private String mobile;
+    private Long kakaoId;
 
     private String nickName;
 
-    private Long kakaoId;
-
-    private String profileImage;
+    private String image;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    private String fcmToken; // fcmToken
-
-    public static User createUser(String nickName, Long kakaoId, String profileImage, UserRole role){
+    public static User createUser(String nickName, Long kakaoId, String image, UserRole role){
         User user = new User();
-        user.nickName = nickName;
         user.kakaoId = kakaoId;
+        user.nickName = nickName;
+        user.image = image;
         user.role = role;
-        if(profileImage != null){
-            user.profileImage = profileImage;
-        }
         return user;
     }
 
-    public void updateFcmToken(String fcmToken) {
-        this.fcmToken = fcmToken;
-    }
-
-    public void updateUser(String email, String mobile, String nickName) {
-        this.email = email;
-        this.mobile = mobile;
+    public void updateUser(String nickName) {
         this.nickName = nickName;
     }
 

@@ -12,6 +12,8 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JwtUtil {
 
+    public static final String ACCESS_TOKEN = "accessToken";
+
     @Value("${token.secret}")
     private String secretKey;
 

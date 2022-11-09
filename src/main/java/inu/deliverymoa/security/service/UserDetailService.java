@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +18,10 @@ import static inu.deliverymoa.common.exception.NotFoundException.USER_NOT_FOUND;
 
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UserDetailService implements UserDetailsService {
+
     private final UserRepository userRepository;
 
     @Override
@@ -29,6 +32,8 @@ public class UserDetailService implements UserDetailsService {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(String.valueOf(findUser.getRole())));
 
-        return new org.springframework.security.core.userdetails.User(String.valueOf(findUser.getId()), "", authorities);
+        CustomUserDetail userDetail = new CustomUserDetail(String.valueOf(findUser.getId()), "", authorities);
+        userDetail.setUser(findUser);
+        return userDetail;
     }
 }

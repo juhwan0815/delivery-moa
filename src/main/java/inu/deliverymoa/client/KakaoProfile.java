@@ -1,4 +1,4 @@
-package inu.deliverymoa.config;
+package inu.deliverymoa.client;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
