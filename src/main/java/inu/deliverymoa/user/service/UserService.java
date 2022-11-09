@@ -1,5 +1,7 @@
 package inu.deliverymoa.user.service;
 
+import inu.deliverymoa.chat.domain.ChatRoom;
+import inu.deliverymoa.chat.domain.ChatRoomQueryRepository;
 import inu.deliverymoa.client.KakaoClient;
 import inu.deliverymoa.common.exception.NotFoundException;
 import inu.deliverymoa.client.KakaoProfile;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static inu.deliverymoa.common.exception.NotFoundException.USER_NOT_FOUND;
@@ -25,6 +28,8 @@ import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VAL
 public class UserService {
 
     private final UserRepository userRepository;
+    private final ChatRoomQueryRepository chatRoomQueryRepository;
+
     private final KakaoClient kakaoClient;
     private final JwtUtil jwtUtil;
     @Value("${token.access_token.expiration_time}")
@@ -64,7 +69,11 @@ public class UserService {
         User findUser = userRepository.findById(user.getId())
                 .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
 
-        // 채팅방 탈퇴 처리
+        List<ChatRoom> findChatRooms = chatRoomQueryRepository.findByUser(user);
+        findChatRooms.stream()
+                        .forEach(chatRoom -> {
+                            chatRoom.deleteChatRoomUser(user);
+                        });
 
         userRepository.delete(findUser);
     }

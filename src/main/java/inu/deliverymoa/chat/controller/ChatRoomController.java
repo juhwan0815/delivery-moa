@@ -5,7 +5,7 @@ import inu.deliverymoa.chat.dto.ChatRoomResponse;
 import inu.deliverymoa.chat.dto.ChatRoomSearchRequest;
 import inu.deliverymoa.chat.dto.ChatRoomUpdateRequest;
 import inu.deliverymoa.chat.service.ChatRoomService;
-import inu.deliverymoa.config.LoginUser;
+import inu.deliverymoa.config.web.LoginUser;
 import inu.deliverymoa.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

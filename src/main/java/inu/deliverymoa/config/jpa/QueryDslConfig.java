@@ -1,4 +1,4 @@
-package inu.deliverymoa.config;
+package inu.deliverymoa.config.jpa;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.context.annotation.Bean;
