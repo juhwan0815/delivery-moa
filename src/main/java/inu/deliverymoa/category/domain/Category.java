@@ -1,5 +1,6 @@
 package inu.deliverymoa.category.domain;
 
+import inu.deliverymoa.common.domain.BaseEntity;
 import inu.deliverymoa.common.domain.YN;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Category {
+public class Category extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,5 +1,6 @@
 package inu.deliverymoa.common.exception;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ public class ExceptionResponse {
 
     private String message;
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Map<String, String> attributes;
 
     public static ExceptionResponse from(String message) {
