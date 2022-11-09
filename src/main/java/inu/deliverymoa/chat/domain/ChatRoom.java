@@ -74,10 +74,10 @@ public class ChatRoom extends BaseEntity {
 
     public boolean isMaster(User user) {
         List<ChatRoomUser> result = this.chatRoomUsers.stream()
-                .filter(chatRoomUser -> chatRoomUser.getId().equals(user.getId()))
+                .filter(chatRoomUser -> chatRoomUser.getUser().getId().equals(user.getId()))
                 .collect(Collectors.toList());
 
-        return result.size() == 1;
+        return result.size() == 1 && result.get(0).getRole() == ChatRoomUserRole.MASTER;
     }
 
     public void delete() {
