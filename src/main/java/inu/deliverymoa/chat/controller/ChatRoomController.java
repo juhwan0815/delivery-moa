@@ -71,5 +71,4 @@ public class ChatRoomController {
         return ResponseEntity.ok().build();
     }
 
-
 }

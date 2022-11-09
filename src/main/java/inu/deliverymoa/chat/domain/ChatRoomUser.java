@@ -1,5 +1,6 @@
 package inu.deliverymoa.chat.domain;
 
+import inu.deliverymoa.common.domain.BaseEntity;
 import inu.deliverymoa.user.domain.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-public class ChatRoomUser {
+public class ChatRoomUser extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

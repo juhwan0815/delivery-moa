@@ -46,7 +46,7 @@ public class ChatRoomService {
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 채팅방입니다."));
 
         if (!findChatRoom.isMaster(user)) {
-            throw new AccessDeniedException("권한이 없는 사용자입니다.");
+            throw new AccessDeniedException("");
         }
 
         Category findCategory = categoryRepository.findById(request.getCategoryId())
@@ -63,7 +63,7 @@ public class ChatRoomService {
                 .orElseThrow(() -> new NotFoundException("존재하지 않는 채팅방입니다."));
 
         if (!findChatRoom.isMaster(user)) {
-            throw new AccessDeniedException("권한이 없는 사용자입니다.");
+            throw new AccessDeniedException("");
         }
 
         findChatRoom.delete();

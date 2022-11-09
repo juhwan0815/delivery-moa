@@ -1,8 +1,10 @@
 package inu.deliverymoa.chat.domain;
 
 import inu.deliverymoa.category.domain.Category;
+import inu.deliverymoa.common.domain.BaseEntity;
 import inu.deliverymoa.common.domain.YN;
 import inu.deliverymoa.common.exception.DuplicateException;
+import inu.deliverymoa.common.exception.ExistException;
 import inu.deliverymoa.common.exception.NotEnoughException;
 import inu.deliverymoa.common.exception.NotFoundException;
 import inu.deliverymoa.user.domain.User;
@@ -19,7 +21,7 @@ import java.util.stream.Collectors;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ChatRoom {
+public class ChatRoom extends BaseEntity {
 
     private static final int LIMIT = 5;
 
@@ -33,6 +35,8 @@ public class ChatRoom {
     private String restaurantName;
 
     private LocalDateTime orderDate;
+
+    private int userCount;
 
     @Enumerated(EnumType.STRING)
     private ChatRoomStatus status;
@@ -57,6 +61,7 @@ public class ChatRoom {
         chatRoom.status = ChatRoomStatus.LACK;
         chatRoom.delYn = YN.N;
         chatRoom.chatRoomUsers.add(ChatRoomUser.createChatRoomUser(ChatRoomUserRole.MASTER, user, chatRoom));
+        chatRoom.userCount++;
         return chatRoom;
     }
 
@@ -94,7 +99,7 @@ public class ChatRoom {
         }
 
         chatRoomUsers.add(ChatRoomUser.createChatRoomUser(ChatRoomUserRole.USER, user, this));
-
+        this.userCount++;
         this.status = chatRoomUsers.size() == LIMIT ? ChatRoomStatus.FULL : ChatRoomStatus.LACK;
     }
 
@@ -107,8 +112,12 @@ public class ChatRoom {
             throw new NotFoundException("존재하지 않는 참가자입니다.");
         }
 
-        chatRoomUsers.remove(result.get(0));
+        if(result.get(0).getRole() == ChatRoomUserRole.MASTER) {
+            throw new ExistException("채팅방 생성자는 채팅방을 나갈 수 없습니다.");
+        }
 
+        chatRoomUsers.remove(result.get(0));
+        this.userCount--;
         if (chatRoomUsers.size() < LIMIT) {
             this.status = ChatRoomStatus.LACK;
         }
