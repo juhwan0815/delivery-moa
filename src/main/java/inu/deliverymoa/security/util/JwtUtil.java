@@ -3,11 +3,13 @@ package inu.deliverymoa.security.util;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtUtil {
@@ -44,6 +46,7 @@ public class JwtUtil {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
             return true;
         } catch (Exception e) {
+            log.error("error", e);
             return false;
         }
     }
