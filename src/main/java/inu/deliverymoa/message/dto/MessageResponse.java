@@ -36,7 +36,7 @@ public class MessageResponse {
         response.userId = message.getUserId();
         response.nickName = message.getNickName();
         response.content = message.getContent();
-        response.createdAt = message.getCreateAt();
+        response.createdAt = message.getCreatedAt();
         return response;
     }
 

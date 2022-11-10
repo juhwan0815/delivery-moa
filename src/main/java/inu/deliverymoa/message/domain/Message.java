@@ -25,7 +25,7 @@ public class Message {
 
     private String content;
 
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
 
     public static Message createMessage(Long roomId, Long userId, String nickName, String content) {
         Message message = new Message();
@@ -33,7 +33,7 @@ public class Message {
         message.userId = userId;
         message.nickName = nickName;
         message.content = content;
-        message.createAt = LocalDateTime.now();
+        message.createdAt = LocalDateTime.now();
         return message;
     }
 }

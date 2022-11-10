@@ -21,7 +21,7 @@ public class MessageQueryRepository {
                 .selectFrom(message)
                 .where(
                         message.roomId.eq(roomId),
-                        message.createAt.before(LocalDateTime.parse(request.getLastMessageDate()))
+                        message.createdAt.before(LocalDateTime.parse(request.getLastMessageDate()))
                 )
                 .orderBy(message.id.desc())
                 .limit(request.getSize())
