@@ -28,6 +28,20 @@ public class StompHandler implements ChannelInterceptor {
                 throw new AccessDeniedException("연결 거부");
             }
         }
+
+        // 채팅방 구독
+        else if(StompCommand.SUBSCRIBE == accessor.getCommand()){
+            System.out.println("StompHandler.preSend");
+
+            String sessionId = accessor.getNativeHeader("roomId").get(0);
+            System.out.println("###subscribe: " + sessionId);
+        }
+
+        // 웹소켓 연결 종료
+        else if(StompCommand.DISCONNECT == accessor.getCommand()){
+            String sessionId = (String) message.getHeaders().get("roomId");
+            System.out.println("###disconnect: " + sessionId);
+        }
         return message;
     }
 
@@ -38,5 +52,10 @@ public class StompHandler implements ChannelInterceptor {
             return bearerToken.substring(7);
         }
         return null;
+    }
+
+    public String getRoomId(String destination) {
+        int lastIndex = destination.lastIndexOf("/");
+        return destination.substring(lastIndex + 1);
     }
 }
