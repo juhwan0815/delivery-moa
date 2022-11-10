@@ -1,11 +1,6 @@
 package inu.deliverymoa.message.domain;
 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-public interface MessageRepository extends CrudRepository<Message, Long> {
-    List<Message> findAllByRoomIdAndCreatedAtIsBeforeOrderByCreatedAtDesc(Long roomId, LocalDateTime createdAt, Pageable pageable);
+public interface MessageRepository extends JpaRepository<Message, Long> {
 }

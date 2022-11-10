@@ -7,8 +7,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MessageRequest {
+public class MessageCreateRequest {
+
     private Long roomId;
+
+    private Long userId;
+
+    private String nickName;
 
     private String content;
 
