@@ -25,6 +25,7 @@ public class ChatRoomQueryRepository {
                         categoryEq(categoryId),
                         chatRoom.delYn.eq(YN.N)
                 )
+                .orderBy(chatRoom.id.desc())
                 .fetch();
     }
 
@@ -34,9 +35,13 @@ public class ChatRoomQueryRepository {
 
     public List<ChatRoom> findByUser(User user) {
         return queryFactory
-                .selectFrom(chatRoom)
+                .selectFrom(chatRoom).distinct()
                 .join(chatRoom.chatRoomUsers, chatRoomUser).fetchJoin()
-                .where(chatRoomUser.user.eq(user))
+                .where(
+                        chatRoomUser.user.eq(user),
+                        chatRoom.delYn.eq(YN.N)
+                )
+                .orderBy(chatRoom.id.desc())
                 .fetch();
     }
 }

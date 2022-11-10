@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static inu.deliverymoa.common.exception.NotFoundException.*;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -32,7 +34,7 @@ public class ChatRoomService {
     public void createChatRoom(ChatRoomCreateRequest request, User user) {
 
         Category findCategory = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 카테고리입니다."));
+                .orElseThrow(() -> new NotFoundException(CATEGORY_NOT_FOUND));
 
         ChatRoom chatRoom = ChatRoom.createChatRoom(request.getTitle(), request.getRestaurantName(),
                 request.getOrderDate(), findCategory, user);
@@ -43,14 +45,14 @@ public class ChatRoomService {
     public void updateChatRoom(Long roomId, ChatRoomUpdateRequest request, User user) {
 
         ChatRoom findChatRoom = chatRoomRepository.findWithChatRoomUsersById(roomId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 채팅방입니다."));
+                .orElseThrow(() -> new NotFoundException(CHAT_ROOM_NOT_FOUND));
 
         if (!findChatRoom.isMaster(user)) {
-            throw new AccessDeniedException("권한이 없는 사용자입니다.");
+            throw new AccessDeniedException("");
         }
 
         Category findCategory = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 카테고리입니다."));
+                .orElseThrow(() -> new NotFoundException(CATEGORY_NOT_FOUND));
 
 
         findChatRoom.update(request.getTitle(), request.getRestaurantName(),
@@ -60,10 +62,10 @@ public class ChatRoomService {
     @Transactional
     public void deleteChatRoom(Long roomId, User user) {
         ChatRoom findChatRoom = chatRoomRepository.findWithChatRoomUsersById(roomId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 채팅방입니다."));
+                .orElseThrow(() -> new NotFoundException(CHAT_ROOM_NOT_FOUND));
 
         if (!findChatRoom.isMaster(user)) {
-            throw new AccessDeniedException("권한이 없는 사용자입니다.");
+            throw new AccessDeniedException("");
         }
 
         findChatRoom.delete();
@@ -80,7 +82,7 @@ public class ChatRoomService {
     public void createChatRoomUser(Long roomId, User user) {
 
         ChatRoom findChatRoom = chatRoomRepository.findWithChatRoomUsersById(roomId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 채팅방입니다."));
+                .orElseThrow(() -> new NotFoundException(CHAT_ROOM_NOT_FOUND));
 
         findChatRoom.addChatRoomUser(user);
     }
@@ -89,7 +91,7 @@ public class ChatRoomService {
     public void deleteChatRoomUser(Long roomId, User user) {
 
         ChatRoom findChatRoom = chatRoomRepository.findWithChatRoomUsersById(roomId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 채팅방입니다."));
+                .orElseThrow(() -> new NotFoundException(CHAT_ROOM_NOT_FOUND));
 
         findChatRoom.deleteChatRoomUser(user);
     }

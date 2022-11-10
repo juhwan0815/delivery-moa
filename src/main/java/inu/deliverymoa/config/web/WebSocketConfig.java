@@ -1,4 +1,4 @@
-package inu.deliverymoa.config;
+package inu.deliverymoa.config.web;
 
 import inu.deliverymoa.security.handler.StompHandler;
 import lombok.RequiredArgsConstructor;

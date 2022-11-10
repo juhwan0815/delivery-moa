@@ -1,5 +1,6 @@
 package inu.deliverymoa.chat.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import inu.deliverymoa.chat.domain.ChatRoom;
 import inu.deliverymoa.chat.domain.ChatRoomUser;
 import inu.deliverymoa.chat.domain.ChatRoomUserRole;
@@ -24,7 +25,10 @@ public class ChatRoomResponse {
 
     private LocalDateTime orderDate;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean master;
+
+    private Integer userCount;
 
     public static ChatRoomResponse from(ChatRoom chatRoom) {
         ChatRoomResponse response = new ChatRoomResponse();
@@ -32,6 +36,7 @@ public class ChatRoomResponse {
         response.title = chatRoom.getTitle();
         response.restaurantName = chatRoom.getRestaurantName();
         response.orderDate = chatRoom.getOrderDate();
+        response.userCount = chatRoom.getUserCount();
         return response;
     }
 
@@ -41,6 +46,8 @@ public class ChatRoomResponse {
         response.title = chatRoom.getTitle();
         response.restaurantName = chatRoom.getRestaurantName();
         response.orderDate = chatRoom.getOrderDate();
+        response.userCount = chatRoom.getUserCount();
+
         List<ChatRoomUser> result = chatRoom.getChatRoomUsers().stream()
                 .filter(chatRoomUser -> chatRoomUser.getRole() == ChatRoomUserRole.MASTER)
                 .collect(Collectors.toList());

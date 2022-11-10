@@ -1,6 +1,6 @@
 package inu.deliverymoa.user.controller;
 
-import inu.deliverymoa.config.LoginUser;
+import inu.deliverymoa.config.web.LoginUser;
 import inu.deliverymoa.user.domain.User;
 import inu.deliverymoa.user.dto.UserUpdateRequest;
 import inu.deliverymoa.user.dto.UserLoginRequest;

@@ -1,4 +1,4 @@
-package inu.deliverymoa.config;
+package inu.deliverymoa.config.jpa;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;

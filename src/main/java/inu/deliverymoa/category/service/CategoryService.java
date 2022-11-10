@@ -15,6 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static inu.deliverymoa.common.exception.DuplicateException.*;
+import static inu.deliverymoa.common.exception.NotFoundException.*;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -26,7 +29,7 @@ public class CategoryService {
     public void createCategory(CategoryCreateRequest request) {
 
         if (categoryRepository.findByNameAndDelYn(request.getName(), YN.N).isPresent()) {
-            throw new DuplicateException("이미 존재하는 카테고리입니다.");
+            throw new DuplicateException(CATEGORY_DUPLICATE);
         }
 
         Category category = Category.createCategory(request.getName());
@@ -37,11 +40,11 @@ public class CategoryService {
     public void updateCategory(Long categoryId, CategoryUpdateRequest request) {
 
         if (categoryRepository.findByNameAndDelYn(request.getName(), YN.N).isPresent()) {
-            throw new DuplicateException("이미 존재하는 카테고리입니다.");
+            throw new DuplicateException(CATEGORY_DUPLICATE);
         }
 
         Category findCategory = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 카테고리입니다."));
+                .orElseThrow(() -> new NotFoundException(CATEGORY_NOT_FOUND));
 
 
         findCategory.update(request.getName());
@@ -57,7 +60,7 @@ public class CategoryService {
     @Transactional
     public void deleteCategory(Long categoryId) {
         Category findCategory = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new NotFoundException("존재하지 않는 카테고리입니다."));
+                .orElseThrow(() -> new NotFoundException(CATEGORY_NOT_FOUND));
 
         findCategory.delete();
     }
